@@ -1,0 +1,2 @@
+sudo docker build -t ubuntu_cv . -> Command for build docker image.
+sudo docker run -it ubuntu_cv    -> Command for run countgrey.py.
