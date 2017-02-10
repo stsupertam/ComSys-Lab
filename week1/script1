@@ -1,0 +1,16 @@
+#!/bin/bash
+
+text=$(wget -q -O - www.textfiles.com/etext/FICTION | grep "\<HREF\>")
+
+max_size=-1
+
+while read -r line; do
+    size=$(echo $line | grep -w -o "<TD> [0-9]*\>" | sed 's/<TD> //g')
+    if (( $size > $max_size )); then
+        max_size=$size
+        name=$(echo $line | grep -w -o "\"[A-Za-z]*.*\"" | sed 's/"//g')
+        fi
+done <<< "$text"
+
+echo "The largest file is $name"
+echo "Link to the file is www.textfiles.com/etext/FICTION/$name"

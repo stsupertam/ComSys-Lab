@@ -1,0 +1,10 @@
+#!/bin/bash
+
+text=$(wget -q -O - www.textfiles.com/etext/FICTION | grep "\<HREF\>")
+
+while read line; do
+    name=$(echo $line | grep -w -o "\"[A-Za-z]*.*\"" | sed 's/"//g')
+    url="www.textfiles.com/etext/FICTION/$name"
+    wget -O - $url >> alltext.txt
+done <<< "$text"
+
