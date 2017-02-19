@@ -1,0 +1,1 @@
+$ spim -f selection_sort.s < TEST.dat : RUN Selection_sort code assembly

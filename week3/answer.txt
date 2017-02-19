@@ -1,0 +1,8 @@
+1. Number of instructions : 2888
+2. Overall effective CPI : 3.2
+
+Overall effective CPI = (Execution time * CPU Frequency) / Instruction Count
+		      = (0.0046208ms * 2.00GHz) / 2888
+		      =  3.2
+
+CPU Specification : Intel Core i7-4510U 2.00GHz
