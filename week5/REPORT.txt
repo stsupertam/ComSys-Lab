@@ -1,0 +1,22 @@
+5710501590 Santitham Ananwattanaporn
+
+Spec : Intel(R) Xeon(R) CPU E5-2630L v2 @ 2.40GHz
+1.
+case                       Total cycles          Total instruction     CPIs
+
+-O1                        43852                 8123                  5.398498
+-O2                        46019                 8114                  5.671555
+-O3                        51920                 8104                  6.406713
+-Os                        51830                 8166                  6.347049
+-Ofast                     47376                 8104                  5.846002
+-foptimize-register-move   11078002              8008104               1.383349
+-fsched2-use-superblocks   11055704              8008135               1.380559
+-funroll-all-loops         11074147              8008104               1.382868
+
+fsched2-use-superblocks give the best result
+
+2.
+matrix size: 1,000 x 1,000:
+MFLOPS (Million): 604.328796 
+MIPS: 1251
+Execution time: 18.129383
