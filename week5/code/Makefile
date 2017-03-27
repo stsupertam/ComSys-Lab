@@ -1,10 +1,10 @@
 PAPIINC = /home/supertam/papi-5.5.1/src/
 PAPILIB = /home/supertam/papi-5.5.1/src/libpapi.a
 CC = gcc
-CFLAGS += -I$(PAPIINC)
+CFLAGS += -fsched2-use-superblocks
 OS = $(shell uname)
 
-TARGETS_NTHD =  high_level2 
+TARGETS_NTHD = matsqure 
 
 TARGETS_PTHREAD =  
 
