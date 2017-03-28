@@ -15,7 +15,6 @@ unsigned int string_search(char* data,unsigned int length, char* target) {
        }
     }
    return found;
-
 }
 
 
