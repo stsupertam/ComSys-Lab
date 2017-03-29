@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define CHUNK 1000
+#define CHUNK 5000000
 
 int sharedByteRead = 0;
 int sharedTotalCount = 0;
@@ -41,7 +41,7 @@ void *GetDataBytes(void *param)
     {
 
         //printf("Check:%s\n", data);
-        //printf("Changing the shared resource now. Thread:%d\n", name->thread_no);
+        printf("Changing the shared resource now. Thread:%d\n", name->thread_no);
         pthread_mutex_lock(&mutex);
         sharedByteRead += CHUNK;
         pthread_mutex_unlock(&mutex);
@@ -79,7 +79,6 @@ int main(int argc, char **argv)
     t3.thread_no = 3;
     t4.thread_no = 4;
     void *ret = NULL;
-    // Really not locking for any reason other than to make the point.
     //... start timer...
     pthread_create(&thread1, NULL, GetDataBytes, (void *) &t1);
     pthread_create(&thread2, NULL, GetDataBytes, (void *) &t2);
