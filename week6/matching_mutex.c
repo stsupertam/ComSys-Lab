@@ -2,53 +2,54 @@
 #include <stdio.h>
 #include <string.h>
 
-#define CHUNK 5000000
+#define CHUNK 10000
+#define NUM_THREADS 4
 
-int sharedByteRead = 0;
 int sharedTotalCount = 0;
+int target_length;
+const char target[] = "<http://www.w3.org/2001/XMLSchema#string>";
 
 FILE *fp; // keep fp pointer for the text fp
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t mutex2 = PTHREAD_MUTEX_INITIALIZER;
 
-typedef struct str_thdata
-{
-    int thread_no;
-} tname;
-
-int string_search(char *data, int length, char *target)
-{
-    int i;
-    int found = 0;
-    for (i = 0; i < length - strlen(target); i++)
-    {
-        if (strncmp(&data[i], target, strlen(target)) == 0)
-        {
-            // printf("found...\n");
-            found++;
-        }
-    }
-    return found;
-}
-
 void *GetDataBytes(void *param)
 {
-    tname *name;
-    name = (tname *) param;
-    char data[CHUNK];
-    int count;
-    while (fread(data, sizeof(char), CHUNK, fp) == CHUNK)
-    {
+    char data[CHUNK + 1];
+    int i, len, count = 0, drop = 0;
 
-        //printf("Check:%s\n", data);
-        printf("Changing the shared resource now. Thread:%d\n", name->thread_no);
+    while (1)
+    {
         pthread_mutex_lock(&mutex);
-        sharedByteRead += CHUNK;
+        len = fread(data, sizeof(char), CHUNK, fp);
+        data[len] = '\0';
+        i = len;
+        for (i = len - 1; i >= 0; i--)
+        {
+            if (data[i] == ' ' || data[i] == '<' || data[i] == '\n')
+            {
+                break;
+            }
+            data[i] = '\0';
+            fseek(fp, -1, SEEK_CUR);
+        }
+        fseek(fp, -1, SEEK_CUR);
+
         pthread_mutex_unlock(&mutex);
+
+        int length = len - target_length;
+        for (i = 0; i < length; i++)
+        {
+            if (strncmp(&data[i], target, strlen(target)) == 0)
+            {
+                count++;
+            }
+        }
+        if (len != CHUNK)
+            break;
     }
 
-    count = string_search(data, CHUNK, "<http://www.w3.org/2001/XMLSchema#string>");
-
+    pthread_mutex_unlock(&mutex);
     pthread_mutex_lock(&mutex2); // second mutex for summing count.
     sharedTotalCount += count;
     pthread_mutex_unlock(&mutex2);
@@ -69,25 +70,31 @@ int main(int argc, char **argv)
         printf("Could not open %s for reading.\n", argv[1]);
         return 0;
     }
-    fseek(fp, 0L, SEEK_END);
-    unsigned total_bytes = ftell(fp) * 8;
-    fseek(fp, 0L, SEEK_SET);
-    pthread_t thread1, thread2, thread3, thread4;
-    tname t1, t2, t3, t4;         /* structs to be passed to threads */
-    t1.thread_no = 1;
-    t2.thread_no = 2;
-    t3.thread_no = 3;
-    t4.thread_no = 4;
+    target_length = strlen(target);
+    pthread_t threads[NUM_THREADS];
+    printf("Search : <http://www.w3.org/2001/XMLSchema#string>\n");
     void *ret = NULL;
-    //... start timer...
-    pthread_create(&thread1, NULL, GetDataBytes, (void *) &t1);
-    pthread_create(&thread2, NULL, GetDataBytes, (void *) &t2);
-    pthread_create(&thread3, NULL, GetDataBytes, (void *) &t3);
-    pthread_create(&thread4, NULL, GetDataBytes, (void *) &t4);
-    pthread_join(thread1, &ret);
-    pthread_join(thread2, &ret);
-    pthread_join(thread3, &ret);
-    pthread_join(thread4, &ret);
+    time_t a, b;
+    int i;
+    a = time(NULL);
+    for (i = 0; i < NUM_THREADS; i++)
+    {
+        int rc = pthread_create(&threads[i], NULL, GetDataBytes, NULL);
+        if (rc)
+        {
+            printf("ERROR; return code from pthread_create() is %d\n", rc);
+        }
+    }
 
+    for (i = 0; i < NUM_THREADS; i++)
+    {
+        if (pthread_join(threads[i], NULL))
+        {
+            printf("ERROR\n");
+        }
+    }
+    b = time(NULL);
+    double search = difftime(b, a);
+    printf("Searching took %lf seconds.\n", search);
     printf("Total count: %d\n", sharedTotalCount);
 }

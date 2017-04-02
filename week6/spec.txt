@@ -1,0 +1,2 @@
+Intel(R) Core(TM) i5-4440 3.10 GHz
+RAM: 8GB

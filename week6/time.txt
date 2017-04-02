@@ -1,0 +1,136 @@
+============================================================ [ Time ] ============================================================
+---------------------- Mutual Exclusion ------------------------|---------------------- Conditional Variable ---------------------
+							FILE : 01all.nt
+[Buffer: 100K]							| [Buffer: 500K, Consume Size: 20K]
+Searching...							| Searching...
+Searching took 17.000000 seconds.				| Searching took 79.000000 seconds.
+Found "<http://www.w3.org/2001/XMLSchema#string>" 2733259 times	| Found "<http://www.w3.org/2001/XMLSchema#string>" 2733259 times
+								|
+[Buffer: 50K]							| [Buffer: 100K, Consume Size: 20K]
+Searching...							| Searching...
+Searching took 20.000000 seconds.				| Searching took 78.000000 seconds.
+Found "<http://www.w3.org/2001/XMLSchema#string>" 2733259 times	| Found "<http://www.w3.org/2001/XMLSchema#string>" 2733259 times
+								|
+[Buffer: 10K]							| [Buffer: 50K, Consume Size: 20K]
+Searching...							| Searching...
+Searching took 52.000000 seconds.				| Searching took 77.000000 seconds.
+Found "<http://www.w3.org/2001/XMLSchema#string>" 2733259 times	| Found "<http://www.w3.org/2001/XMLSchema#string>" 2733259 times
+								|
+[Buffer: 5K]							| [Buffer: 500K, Consume Size: 10K]
+Searching...							| Searching...
+Searching took 120.000000 seconds.				| Searching took 104.000000 seconds.
+Found "<http://www.w3.org/2001/XMLSchema#string>" 2733259 times	| Found "<http://www.w3.org/2001/XMLSchema#string>" 2733259 times
+								|
+								| [Buffer: 100K, Consume Size: 10K]
+								| Searching...
+								| Searching took 103.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 2733259 times
+								|
+								| [Buffer: 50K, Consume Size: 10K]
+								| Searching...
+								| Searching took 103.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 2733259 times
+								|
+								| [Buffer: 500K, Consume Size: 5K]
+								| Searching...
+								| Searching took 145.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 2733259 times
+								|
+								| [Buffer: 100K, Consume Size: 5K]
+								| Searching...
+								| Searching took 143.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 2733259 times
+								|
+								| [Buffer: 50K, Consume Size: 5K]
+								| Searching...
+								| Searching took 142.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 2733259 times
+								|
+								| [Buffer: 500K, Consume Size: 1K]
+								| Searching...
+								| Searching took 302.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 2733259 times
+								|
+								| [Buffer: 100K, Consume Size: 1K]
+								| Searching...
+								| Searching took 301.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 2733259 times
+								|
+								| [Buffer: 50K, Consume Size: 1K]
+								| Searching...
+								| Searching took 299.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 2733259 times
+								|
+								| [Buffer: 10K, Consume Size: 1K]
+								| Searching...
+								| Searching took 298.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 2733259 times
+								|
+==================================================================================================================================
+---------------------- Mutual Exclusion ------------------------|---------------------- Conditional Variable ---------------------
+							FILE : 02all.nt
+[Buffer: 100K]							| [Buffer: 500K, Consume Size: 20K]
+Searching...							| Searching...
+Searching took 46.000000 seconds.				| Searching took 185.000000 seconds.
+Found "<http://www.w3.org/2001/XMLSchema#string>" 5466518 times	| Found "<http://www.w3.org/2001/XMLSchema#string>" 5466518 times
+								|
+[Buffer: 50K]							| [Buffer: 100K, Consume Size: 20K]
+Searching...							| Searching...
+Searching took 51.000000 seconds.				| Searching took 183.000000 seconds.
+Found "<http://www.w3.org/2001/XMLSchema#string>" 5466518 times	| Found "<http://www.w3.org/2001/XMLSchema#string>" 5466518 times
+								|
+[Buffer: 10K]							| [Buffer: 50K, Consume Size: 20K]
+Searching...							| Searching...
+Searching took 121.000000 seconds.				| Searching took 182.000000 seconds.
+Found "<http://www.w3.org/2001/XMLSchema#string>" 5466518 times	| Found "<http://www.w3.org/2001/XMLSchema#string>" 5466518 times
+								|
+[Buffer: 5K]							| [Buffer: 500K, Consume Size: 10K]
+Searching...							| Searching...
+Searching took 235.000000 seconds.				| Searching took 267.000000 seconds.
+Found "<http://www.w3.org/2001/XMLSchema#string>" 5466518 times	| Found "<http://www.w3.org/2001/XMLSchema#string>" 5466518 times
+								|
+								| [Buffer: 100K, Consume Size: 10K]
+								| Searching...
+								| Searching took 265.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 5466518 times
+								|
+								| [Buffer: 50K, Consume Size: 10K]
+								| Searching...
+								| Searching took 263.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 5466518 times
+								|
+								| [Buffer: 500K, Consume Size: 5K]
+								| Searching...
+								| Searching took 335.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 5466518 times
+								|
+								| [Buffer: 100K, Consume Size: 5K]
+								| Searching...
+								| Searching took 334.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 5466518 times
+								|
+								| [Buffer: 50K, Consume Size: 5K]
+								| Searching...
+								| Searching took 332.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 5466518 times
+								|
+								| [Buffer: 500K, Consume Size: 1K]
+								| Searching...
+								| Searching took 655.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 5466518 times
+								|
+								| [Buffer: 100K, Consume Size: 1K]
+								| Searching...
+								| Searching took 654.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 5466518 times
+								|
+								| [Buffer: 50K, Consume Size: 1K]
+								| Searching...
+								| Searching took 653.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 5466518 times
+								|
+								| [Buffer: 10K, Consume Size: 1K]
+								| Searching...
+								| Searching took 653.000000 seconds.
+								| Found "<http://www.w3.org/2001/XMLSchema#string>" 5466518 times
+==================================================================================================================================
