@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define CHUNK 10000
+#define CHUNK 100000
 #define NUM_THREADS 4
 
 int sharedTotalCount = 0;

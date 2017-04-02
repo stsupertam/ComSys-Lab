@@ -5,7 +5,7 @@
 #include <string.h>
 #include <time.h>
 
-#define BUF_SIZE 25
+#define BUF_SIZE 500000
 #define CONS_SIZE 20000
 #define NUM_CONSUMERS 4
 
@@ -13,7 +13,7 @@ char buf[BUF_SIZE][CONS_SIZE];
 int count[BUF_SIZE] = {};
 const char target[] = "<http://www.w3.org/2001/XMLSchema#string>";
 const char invalid[] = {' ','\n', '<'};
-int target_length;
+long long target_length;
 FILE *fp; 
 int sharedTotalCount=0;
 
@@ -110,6 +110,7 @@ int main(int argc, char *argv[]) {
     int i,sum = 0;
     printf("Searching : <http://www.w3.org/2001/XMLSchema#string>\n");
     a = time(NULL);
+
     pthread_create(&prod, NULL, producer, (void*)&buffer);
     for(i=0;i<NUM_CONSUMERS;i++) 
         pthread_create(&cons[i], NULL, consumer, (void*)&buffer);
@@ -119,9 +120,10 @@ int main(int argc, char *argv[]) {
     b = time(NULL);
     double search = difftime(b, a);
     printf("Searching took %lf seconds.\n", search);
+
     for(i=0;i<BUF_SIZE;i++)
         sum += count[i];
 
-    printf("Found \"\" %d times\n", sum);
+    printf("Total count: %d\n", sum);
     pthread_exit(NULL);
 }
