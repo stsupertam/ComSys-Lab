@@ -2,7 +2,7 @@
 #include <stdio.h>
 void main()
 {
-    int fda[2];  // file descriptors
+	int fda[2];  // file descriptors
     int fda1[2]; // file descriptors
     if(pipe(fda) < 0) printf("create pipe failed\n");
     switch(fork())
@@ -41,7 +41,7 @@ void main()
      		dup(fda[0]);
      		close(fda[0]);
      		close(fda[1] );
-			execlp("wc", "wc", "-l", (char *) 0);
+			execlp("wc", "wc", (char *) 0);
      		printf("failed to execute wc\n");
      		break;
      }		
