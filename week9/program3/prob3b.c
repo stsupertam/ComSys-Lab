@@ -2,18 +2,8 @@
 #include <dirent.h>
 #include <stdio.h>
 #include <string.h>
-#include <semaphore.h>
-#include <sys/ipc.h>
-#include <sys/shm.h>
-#include <sys/wait.h>
 #include <unistd.h>
 #include <stdlib.h>
-
-#define SHM_SIZE 8
-
-/* let us make a recursive function to print the content of a given folder */
-
-long child_process(char *path);
 
 long count_dir_content(char *path)
 {
