@@ -1,68 +1,66 @@
+
+#include <dirent.h>
 #include <stdio.h>
-#include <sys/file.h>
-#include <sys/dir.h>
-#include <sys/stat.h>
+#include <string.h>
+#include <semaphore.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <stdlib.h>
 
+#define SHM_SIZE 8
 
+/* let us make a recursive function to print the content of a given folder */
 
-long processFile(name) char *name;
+long child_process(char *path);
+
+long count_dir_content(char *path)
 {
-    struct stat statBuf; /* To hold the return data from stat() */
-    mode_t mode;
-    int result;
+    long counter = 0;
+    DIR * d = opendir(path); // open the path
+    if(d==NULL) return 0; // if was not able return
+    struct dirent * dir; // for the directory entries
 
-    result = stat(name, &statBuf); /* Stat the specified file */
-    if (result == -1)
-        return (0); /* Error */
-
-    mode = statBuf.st_mode; /* Look at the file’s mode */
-    if (S_ISDIR(mode))      /* Directory */
-        return (processDirectory(name));
-    else
-        return (1); /* A nondirectory file was processed */
-}
-long processDirectory(dirName) char *dirName;
-{
-    int fd, children, i, charsRead, childPid, status;
-    long count, totalCount;
-    char fileName[100];
-    struct dirent dirEntry;
-
-    fd = open(dirName, O_RDONLY); /* Open directory for reading */
-    children = 0;                 /* Initialize child process count */
-    while (1)                     /* Scan directory */
+    while ((dir = readdir(d)) != NULL) // if we were able to read somehting from the directory
     {
-        charsRead = getdents(fd, &dirEntry, sizeof(struct dirent));
-        if (charsRead == 0)
-            break; /* End of directory */
-        if (strcmp(dirEntry.d_name, ".") != 0 &&
-            strcmp(dirEntry.d_name, "..") != 0)
-        {
-            if (fork() == 0) /* Creates a child to process dir.  entry */
-            {
-                sprintf(fileName, "%s/%s", dirName, dirEntry.d_name);
-                count = processFile(fileName);
-                exit(count);
-            }
-            else
-                ++children; /* Increment count of child processes */
+        if(dir-> d_type != DT_DIR) { // if the type is not directory just print it with blue
+            counter = counter + 1;
         }
-        lseek(fd, dirEntry.d_off, SEEK_SET); /* Jump to next dir. entry */
+        else
+            if(dir -> d_type == DT_DIR && strcmp(dir->d_name,".")!=0 && strcmp(dir->d_name,"..")!=0 ) // if it is a directory
+            {
+                char d_path[255]; // here I am using sprintf which is safer than strcat
+                sprintf(d_path, "%s/%s", path, dir->d_name);
+
+                int fd[2];
+                pid_t pid;
+                pipe(fd);
+                pid = fork();
+                int child_count = 0;
+
+                if(pid == 0) {
+                    close(fd[0]); // close up input side of the pipe
+                    child_count = child_count + count_dir_content(d_path); // recall with the new path
+                    write(fd[1], &child_count, sizeof(child_count)); // send child_count to parent
+                    exit(0);
+                } else {
+                    close(fd[1]); // close up output side of the pipe
+                    int returnStatus;
+                    waitpid(pid, &returnStatus, 0); // wait for little child to terminate
+                    read(fd[0], &child_count, sizeof(child_count)); // get counter value from child
+                    counter = counter + child_count;
+                }
+            }
     }
-    close(fd);                      /* Close directory */
-    totalCount = 0;                 /* Initialize file count */
-    for (i = 1; i <= children; i++) /* Wait for children to terminate */
-    {
-        childPid = wait(&status);    /* Accept child’s termination code */
-        totalCount += (status >> 8); /* Update file count */
-    }
-    return (totalCount); /* Return number of files in directory */
+    closedir(d); // finally close the directory
+
+    return counter;
 }
 
 int main(int argc, char **argv)
 {
-    long count;
-    count = processFile(argv[1]);
-    printf("Total number of non-directory files is %ld \n", count);
-    return (/* EXIT_SUCCESS */ 0);
+    long N = count_dir_content(argv[1]);
+    printf("The number of files is: %ld\n", N);
+    return(0);
 }

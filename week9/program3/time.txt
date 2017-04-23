@@ -1,0 +1,14 @@
+prob3a
+real    0m0.023
+s
+user    0m0.000
+s
+sys     0m0.016s
+
+
+prob3b
+real    0m0.011s
+
+user    0m0.000
+s
+sys     0m0.016s
