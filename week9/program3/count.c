@@ -65,16 +65,8 @@ long processDirectory(dirName) char *dirName;
                 exit(count);
             }
             else
-            {
-                close(fd[1]); // close up output side of the pipe
-                int returnStatus;
-                waitpid(pid, &returnStatus, 0);                 // wait for little child to terminate
-                read(fd[0], &child_count, sizeof(child_count)); // get counter value from child
-                counter = counter + child_count;
-            }
-            ++children; /* Increment count of child processes */
+                ++children; /* Increment count of child processes */
         }
-
         lseek(fd, dirEntry->d_off, SEEK_SET); /* Jump to next dir. entry */
     }
 
