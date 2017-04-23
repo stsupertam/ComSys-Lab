@@ -2,4 +2,6 @@
 *.jpg
 *.dat
 *.nt
+*.zip
+*.rar
 /.vscode
