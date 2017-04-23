@@ -3,13 +3,7 @@
 #include <sys/dir.h>
 #include <sys/stat.h>
 
-int main(int argc, char **argv)
-{
-    long count;
-    count = processFile(argv[1]);
-    printf("Total number of non-directory files is %ld \n", count);
-    return (/* EXIT_SUCCESS */ 0);
-}
+
 
 long processFile(name) char *name;
 {
@@ -63,4 +57,12 @@ long processDirectory(dirName) char *dirName;
         totalCount += (status >> 8); /* Update file count */
     }
     return (totalCount); /* Return number of files in directory */
+}
+
+int main(int argc, char **argv)
+{
+    long count;
+    count = processFile(argv[1]);
+    printf("Total number of non-directory files is %ld \n", count);
+    return (/* EXIT_SUCCESS */ 0);
 }
